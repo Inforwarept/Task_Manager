@@ -3,6 +3,7 @@ package view;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,7 +14,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controller.AppCtrl;
+import controller.ArUsers;
 import model.User;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Intro extends JFrame {
 
@@ -48,16 +52,8 @@ public class Intro extends JFrame {
 		panel.add(lblEscolhaOSeu);
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.addItem("--- Selecione ---");
-		for(User u : this.app.arUsers.getArUsers())
-		{
-			comboBox.addItem(u.getUsername());
-		}
+		comboBox = this.addItemComboBox(this.app.arUsers.getArUsers());
 		comboBox.setSelectedIndex(0);
-		for(int i=0; i < comboBox.getItemCount(); i++)
-		{
-			comboBox.setSelectedIndex(i);
-		}
 		comboBox.setFont(new Font("Arial", Font.PLAIN, 16));
 		comboBox.setBounds(10, 57, 349, 35);
 		panel.add(comboBox);
@@ -122,5 +118,28 @@ public class Intro extends JFrame {
 		// Centrar a janela ao meio do ecra
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		
+
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				System.out.println(k.getKeyCode());
+			}
+		});
+	}
+	
+	private JComboBox<String> addItemComboBox(ArrayList<User> au) {
+		
+		JComboBox<String> jc = new JComboBox<>();
+		jc.addItem("--- Selecione ---");
+		for(User u : au)
+		{
+			if(u.getId() != 0 || u.getUsername().equals("Administrator"))
+			{
+				jc.addItem(u.getUsername());
+			}
+		}
+		
+		return jc;
 	}
 }
