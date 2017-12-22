@@ -7,8 +7,8 @@ import view.Intro;
 public class App {
 
 	public App() {
-
-		// Start Intro View
+		
+		//Start the Intro
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -22,6 +22,7 @@ public class App {
 	}
 	
 	public static void main(String[] args) {
+		//Start the App
 		new App();
 	}
 
