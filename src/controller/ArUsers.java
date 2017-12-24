@@ -6,7 +6,7 @@ import model.User;
 
 public class ArUsers {
 
-	public ArrayList<User> arUsers;
+	private ArrayList<User> arUsers;
 
 	public ArUsers() {
 		this.arUsers = new ArrayList<User>();

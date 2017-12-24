@@ -3,6 +3,8 @@ package view;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -14,10 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controller.AppCtrl;
-import controller.ArUsers;
 import model.User;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class Intro extends JFrame {
 
@@ -63,25 +62,6 @@ public class Intro extends JFrame {
 		btnEntrar.setBounds(205, 159, 154, 101);
 		panel.add(btnEntrar);
 		
-		JButton button_1 = new JButton("1");
-		button_1.setEnabled(false);
-		button_1.setBounds(10, 103, 55, 45);
-		panel.add(button_1);
-		
-		JButton button_2 = new JButton("2");
-		button_2.setEnabled(false);
-		button_2.setBounds(75, 103, 55, 45);
-		panel.add(button_2);
-		
-		JButton button_3 = new JButton("3");
-		button_3.setEnabled(false);
-		button_3.setBounds(140, 103, 55, 45);
-		panel.add(button_3);
-		
-		JButton button_4 = new JButton("4");
-		button_4.setEnabled(false);
-		button_4.setBounds(10, 159, 55, 45);
-		panel.add(button_4);
 		
 		JButton button_5 = new JButton("5");
 		button_5.setEnabled(false);
@@ -119,27 +99,84 @@ public class Intro extends JFrame {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
-
-		addKeyListener(new KeyAdapter() {
+		comboBox.addActionListener(new ActionListener() {
 			@Override
-			public void keyPressed(KeyEvent k) {
-				System.out.println(k.getKeyCode());
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JComboBox cb = (JComboBox) e.getSource();
+				Object s = cb.getSelectedItem();
+				
+				for(User u : Intro.this.getApp().arUsers.getArUsers())
+				{
+					if (u.getUsername().equals(s.toString()))
+					{
+						
+					}
+				}
 			}
 		});
 	}
 	
+	
+	// preenche o menu dropdwon com o nome dos utilizadores
 	private JComboBox<String> addItemComboBox(ArrayList<User> au) {
-		
 		JComboBox<String> jc = new JComboBox<>();
 		jc.addItem("--- Selecione ---");
 		for(User u : au)
 		{
-			if(u.getId() != 0 || u.getUsername().equals("Administrator"))
+			if(u.getId() != 0)
 			{
 				jc.addItem(u.getUsername());
 			}
 		}
 		
 		return jc;
+	}
+
+	// Apenas para poder aceder dentro do ActionListener do ComboBox
+	public AppCtrl getApp() {
+		return app;
+	}
+	
+	// Função para criar o painel de botões
+	
+	private ArrayList<JButton> createBtns() {
+		
+		ArrayList<JButton> arBtn = new ArrayList<JButton>();
+		
+		JButton button_1 = new JButton("1");
+		button_1.setEnabled(false);
+		button_1.setBounds(10, 103, 55, 45);
+		panel.add(button_1);
+		
+
+		JButton button_2 = new JButton("2");
+		button_2.setEnabled(false);
+		button_2.setBounds(75, 103, 55, 45);
+		panel.add(button_2);
+		
+		JButton button_3 = new JButton("3");
+		button_3.setEnabled(false);
+		button_3.setBounds(140, 103, 55, 45);
+		panel.add(button_3);
+		
+		JButton button_4 = new JButton("4");
+		button_4.setEnabled(false);
+		button_4.setBounds(10, 159, 55, 45);
+		panel.add(button_4);
+		
+		
+		int ct=0;
+		for(int i=0; i <= 9 ; i++) {
+			
+			JButton btn = new JButton(""+i);
+			btn.setEnabled(false);
+			btn.setBounds(10, 103, 55, 45);
+		}
+	}
+	
+	// Desbloqueia os botões
+	private void unlockBtns() {
+		
 	}
 }
