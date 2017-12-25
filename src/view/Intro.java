@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -20,6 +21,8 @@ import controller.AppCtrl;
 import model.User;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Intro extends JFrame {
 
@@ -63,6 +66,22 @@ public class Intro extends JFrame {
 		panel.add(comboBox);
 		
 		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(textField.getText().equals("0000"))
+				{
+
+					try {
+						Painel frame = new Painel();
+						frame.setVisible(true);
+						Intro.this.setVisible(false);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		btnEntrar.setEnabled(false);
 		btnEntrar.setBounds(205, 159, 154, 101);
 		panel.add(btnEntrar);
@@ -164,6 +183,18 @@ public class Intro extends JFrame {
 			JButton btn = new JButton(""+ct);
 			btn.setFont(btn_font);
 			btn.setEnabled(false);
+			btn.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JButton b = (JButton) e.getSource();
+					if(b.getText().equals("C")) {
+						textField.setText("");
+					}
+					else {
+						textField.setText(textField.getText()+b.getText());
+					}
+				}
+			});
 			
 			if(ct == 0)
 			{
