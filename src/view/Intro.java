@@ -70,15 +70,18 @@ public class Intro extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				User u = null;
-				u = Intro.this.verifyUserPassword(getComboBox().getSelectedItem().toString(),Integer.parseInt(textField.getText()));
-				if(u != null)
+				if(!textField.getText().equals(""))
 				{
-					try {
-						Painel frame = new Painel(Intro.this.app, u.getId());
-						frame.setVisible(true);
-						Intro.this.setVisible(false);
-					} catch (Exception e) {
-						e.printStackTrace();
+					u = Intro.this.verifyUserPassword(getComboBox().getSelectedItem().toString(),Integer.parseInt(textField.getText()));
+					if(u != null)
+					{
+						try {
+							Painel frame = new Painel(Intro.this.app, u.getId());
+							frame.setVisible(true);
+							Intro.this.setVisible(false);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -88,7 +91,21 @@ public class Intro extends JFrame {
 		panel.add(btnEntrar);
 
 		textField = new JTextField();
-		textField.setEnabled(false);
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				String gkc = ""+e.getKeyChar();
+				//System.out.println("Key: "+e.getKeyChar());
+				if(Integer.parseInt(gkc) >= 0 && Integer.parseInt(gkc) <= 9)
+				{
+					textField.setText(textField.getText()+e.getKeyChar());
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				{
+					textField.setText(textField.getText().substring(0, textField.getText().length()-1));
+				}
+			}
+		});
 		textField.setEditable(false);
 		textField.setBounds(205, 103, 154, 45);
 		panel.add(textField);
@@ -104,6 +121,7 @@ public class Intro extends JFrame {
 			panel.add(btn);
 		}
 		
+		// Bloqueia/Desbloqueia o teclado
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -142,6 +160,7 @@ public class Intro extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.isControlDown())
 				{
+					System.out.println("Key: " + e.getKeyCode());
 					if(e.getKeyCode() == 75)
 					{
 						if(isAlreadyEnable) {
@@ -195,6 +214,7 @@ public class Intro extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JButton b = (JButton) e.getSource();
+					System.out.println("Key: "+ e.getSource().toString());
 					if(b.getText().equals("C")) {
 						textField.setText("");
 					}

@@ -11,9 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JScrollBar;
-import java.awt.Scrollbar;
+import javax.swing.JTextPane;
 
 
 public class Painel extends JFrame {
