@@ -1,28 +1,30 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.AppCtrl;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+import javax.swing.JScrollBar;
+import java.awt.Scrollbar;
+
 
 public class Painel extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable table;
 
-
-	/**
-	 * Create the frame.
-	 */
-	public Painel() {
+	public Painel(AppCtrl app, int user_id) {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, /*app.arUsers.getUser(user_id).getUserCfg().getScreen_w(), app.arUsers.getUser(user_id).getUserCfg().getScreen_h()*/1280,768);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -32,18 +34,22 @@ public class Painel extends JFrame {
 		
 		JMenuItem mntmAccountInfo = new JMenuItem("Account Info");
 		mnFile.add(mntmAccountInfo);
+		
+		JMenuItem mntmConfigurations = new JMenuItem("Configurations");
+		mntmConfigurations.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Configurations frame = new Configurations(app, user_id);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		mnFile.add(mntmConfigurations);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 414, 218);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		table = new JTable();
-		table.setBounds(10, 201, 394, -189);
-		panel.add(table);
 	}
 }

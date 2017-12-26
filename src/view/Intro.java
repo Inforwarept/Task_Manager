@@ -2,7 +2,6 @@ package view;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -32,6 +31,7 @@ public class Intro extends JFrame {
 	private AppCtrl app;
 	private JTextField textField;
 	boolean isAlreadyEnable = false;
+	private JComboBox<String> comboBox;
 	
 	
 	public Intro() {
@@ -58,7 +58,7 @@ public class Intro extends JFrame {
 		lblEscolhaOSeu.setBounds(10, 11, 349, 35);
 		panel.add(lblEscolhaOSeu);
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox = new JComboBox<String>();
 		comboBox = this.addItemComboBox(this.app.arUsers.getArUsers());
 		comboBox.setSelectedIndex(0);
 		comboBox.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -69,11 +69,12 @@ public class Intro extends JFrame {
 		btnEntrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(textField.getText().equals("0000"))
+				User u = null;
+				u = Intro.this.verifyUserPassword(getComboBox().getSelectedItem().toString(),Integer.parseInt(textField.getText()));
+				if(u != null)
 				{
-
 					try {
-						Painel frame = new Painel();
+						Painel frame = new Painel(Intro.this.app, u.getId());
 						frame.setVisible(true);
 						Intro.this.setVisible(false);
 					} catch (Exception e) {
@@ -127,7 +128,11 @@ public class Intro extends JFrame {
 		});
 	}
 	
-	
+	// get JComboBox
+	public JComboBox<String> getComboBox() {
+		return comboBox;
+	}
+
 	// preenche o menu dropdwon com o nome dos utilizadores
 	private JComboBox<String> addItemComboBox(ArrayList<User> au) {
 		JComboBox<String> jc = new JComboBox<>();
@@ -142,10 +147,13 @@ public class Intro extends JFrame {
 						if(isAlreadyEnable) {
 							lockBtns();
 							isAlreadyEnable = false;
+							getComboBox().removeItem(getComboBox().getSelectedItem());
 						}
 						else {
 							unlockBtns();
 							isAlreadyEnable = true;
+							getComboBox().addItem(Intro.this.app.arUsers.getUser(0).getUsername().toString());
+							getComboBox().setSelectedIndex(getComboBox().getItemCount()-1);
 						}
 					}
 				}
@@ -245,5 +253,31 @@ public class Intro extends JFrame {
 				btn.setEnabled(false);
 			}
 		}
+	}
+	
+	// Verifica o nome e a password
+	private User verifyUserPassword(String n, int p) {
+		User getResult = null;
+		
+		for(User u : this.app.arUsers.getArUsers())
+		{
+			if(u.getUsername().equals(n))
+			{
+				if(u.getPassword() == p)
+				{
+					getResult = u;
+				}
+				else
+				{
+					getResult = null;
+				}
+			}
+			else
+			{
+				getResult = null;
+			}
+		}
+		
+		return getResult;
 	}
 }

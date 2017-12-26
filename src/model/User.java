@@ -8,17 +8,20 @@ public class User {
 	public int ranksystem, gender;
 	public boolean systemstat;
 	
-	public User(int id, String username, int password, String email, String contacto, int ranksystem, int gender,
-			boolean systemstat) {
+	public Configs userCfg;
+	
+	public User(int id, String username, String email, String contacto, int password, int ranksystem, int gender,
+			boolean systemstat, Configs userCfg) {
 		super();
 		this.id = id;
 		this.username = username;
-		this.password = password;
 		this.email = email;
 		this.contacto = contacto;
+		this.password = password;
 		this.ranksystem = ranksystem;
 		this.gender = gender;
 		this.systemstat = systemstat;
+		this.userCfg = userCfg;
 	}
 
 	public int getId() {
@@ -83,5 +86,14 @@ public class User {
 
 	public void setSystemstat(boolean systemstat) {
 		this.systemstat = systemstat;
-	}	
+	}
+
+	public Configs getUserCfg() {
+		return userCfg;
+	}
+
+	public void setUserCfg(Configs userCfg) {
+		this.userCfg = userCfg;
+	}
+
 }
